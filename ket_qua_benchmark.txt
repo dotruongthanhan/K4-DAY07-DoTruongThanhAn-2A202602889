@@ -1,0 +1,82 @@
+================================================================================
+KẾT QUẢ ĐÁNH GIÁ BENCHMARK - LAB 07 (K4-L3B)
+Chiến lược Chunking: FixedSizeChunker(size=300, overlap=50)
+Mô hình Embedding:   gemini
+Tổng số chunks nạp:  105 chunks từ 11 tài liệu
+================================================================================
+
+--- Câu hỏi q1 [unspecified] ---
+Query:       Sau khi đơn hàng giao thành công, tôi có bao nhiêu ngày để gửi yêu cầu trả hàng hoặc hoàn tiền?
+Gold Doc:    shopee-return-refund-policy, dmx-marketplace-return-rules
+Gold Answer: Do người dùng không cung cấp thông tin nền tảng mua hàng trong khi mỗi bên có thời hạn và điều kiện khác nhau (Shopee: 15 ngày; Sàn Điện Máy Xanh: 15 ngày; HACOM: 15 ngày đổi mới; AVAKids: 7-30 ngày), mô hình bắt buộc phải tự hỏi lại xem người dùng đang cần tra cứu trên sàn/đơn vị nào thay vì tự thừa nhận hoặc suy đoán một nền tảng cụ thể.
+  [QUY TẮC ĐẶC BIỆT]: Thiếu thông tin platform -> Model KHÔNG ĐƯỢC tự ý thừa nhận/suy đoán, mà PHẢI HỎI LẠI:
+                      "Bạn đang mua hàng trên nền tảng hoặc cửa hàng nào (Shopee, Điện Máy Xanh, HACOM hay AVAKids)?"
+  Top-1: [GOLD] score=0.8483 | doc_id=dmx-marketplace-return-rules     [CHỨA ĐÁP ÁN]
+          preview: g chủng loại, màu sắc, thông số kỹ thuật hoặc số lượng; hoặc hàng bị móp méo, trầy xước, không còn nguyên đai nguyên kiệ...
+  Top-2: [GOLD] score=0.8109 | doc_id=shopee-return-refund-policy      [CHỨA ĐÁP ÁN]
+          preview: ục 2. Các lý do Trả hàng/Hoàn tiền.  A. Tổng quan quy trình Trả hàng/Hoàn tiền  1. Thời hạn Người mua yêu cầu Trả hàng/H...
+  Top-3: [GOLD] score=0.8077 | doc_id=shopee-return-refund-policy      
+          preview:  mua đã bấm xác nhận "Đã nhận được hàng", Người mua vẫn có thể gửi yêu cầu nếu vẫn còn trong thời hạn Trả hàng...
+  -> Đánh giá điểm: 2/2 đ (Gold ở Top-1 và Chunk chứa thông tin chính xác)
+  -> Agent trả lời: [1] (Source: dmx-marketplace-return-rules)...
+
+--- Câu hỏi q2 [Lazada] ---
+Query:       Theo quy định đồng kiểm Lazada dành cho Nhà Bán Hàng (NBH), NBH có phải chịu thêm chi phí nào cho đơn đồng kiểm không và cần liên hệ bộ phận nào nếu kiện hàng hoàn về bị hư hỏng, thiếu hàng?
+Gold Doc:    lazada-joint-inspection-seller
+Gold Answer: NBH không phải chi trả thêm bất kỳ chi phí nào cho các đơn hàng đồng kiểm. Nếu hàng hoàn về có vấn đề (thiếu hàng, hư hỏng, tráo hàng, tem không nguyên vẹn), NBH liên hệ ngay với Bộ Phận Hỗ trợ NBH PSC để được giải quyết.
+  [A/B Test - Lần 1: KHÔNG DÙNG FILTER]
+    Top-1: score=0.8289 | doc=lazada-joint-inspection-seller | audience=seller
+    Top-2: score=0.8176 | doc=lazada-joint-inspection-both | audience=both
+    Top-3: score=0.8169 | doc=lazada-joint-inspection-seller | audience=seller
+  [A/B Test - Lần 2: CÓ DÙNG FILTER]
+  Top-1: [GOLD] score=0.8289 | doc_id=lazada-joint-inspection-seller   
+          preview: n)? NBH vui lòng liên hệ với Bộ Phận Hỗ trợ NBH PSC ngay để được giải quyết.  ## 3.6 Sau khi đồng kiểm, người mua có thể...
+  Top-2: [GOLD] score=0.8169 | doc_id=lazada-joint-inspection-seller   
+          preview: rả đơn đồng kiểm sẽ như thế nào? Quy trình hoàn trả đơn đồng kiểm sẽ tương tự như quy trình hoàn trả hàng thông thường. ...
+  Top-3: [GOLD] score=0.7890 | doc_id=lazada-joint-inspection-seller   
+          preview:  cho NBH (trong trường hợp chọn hình thức thanh toán khi nhận hàng COD).  ## 3.3 NBH có thể theo dõi đơn đồng kiểm hoàn ...
+  -> Đánh giá điểm: 1/2 đ (Top-3 trúng file nhưng chunk chưa chứa trực tiếp chuỗi đáp án)
+  -> Agent trả lời: [1] (Source: lazada-joint-inspection-seller)...
+
+--- Câu hỏi q3 [HACOM] ---
+Query:       Tại HACOM, chính sách đổi mới 100% sản phẩm lỗi do nhà sản xuất áp dụng trong bao nhiêu ngày đầu và dịch vụ bảo hành tại nơi sử dụng áp dụng cho đối tượng nào?
+Gold Doc:    hacom-warranty-process
+Gold Answer: Áp dụng đổi mới 100% trong 15 ngày đầu với sản phẩm mới lỗi do nhà sản xuất. Dịch vụ bảo hành tại nơi sử dụng áp dụng cho khách hàng doanh nghiệp có Thẻ bảo hành vàng và địa chỉ cách chi nhánh gần nhất dưới 20 km.
+  Top-1:        score=0.8798 | doc_id=hacom-warranty-special-return    
+          preview: # Chính sách bảo hành và đổi trả đặc biệt HACOM  Tài liệu tóm lược thủ công từ trang chính sách công khai của HACOM. Tro...
+  Top-2:        score=0.8304 | doc_id=hacom-warranty-special-return    
+          preview: nh sách bảo hành khi có lỗi.  Từ ngày 16 đến hết thời hạn bảo hành, HACOM nêu thời gian tiếp nhận bảo hành là 10 ngày, k...
+  Top-3: [GOLD] score=0.8121 | doc_id=hacom-warranty-process           
+          preview: # Quy trình và điều kiện bảo hành HACOM  Tài liệu tóm lược thủ công từ trang chính sách công khai của HACOM. Quy trình c...
+  -> Đánh giá điểm: 1/2 đ (Top-3 trúng file nhưng chunk chưa chứa trực tiếp chuỗi đáp án)
+  -> Agent trả lời: [1] (Source: hacom-warranty-special-return)...
+
+--- Câu hỏi q4 [Điện Máy Xanh] ---
+Query:       Khách hàng mua trên Sàn TMĐT Điện Máy Xanh có bao nhiêu ngày để gửi yêu cầu trả hàng sau khi giao thành công, và cần cung cấp bằng chứng gì nếu không trả hàng ngay lúc đồng kiểm?
+Gold Doc:    dmx-marketplace-return-rules
+Gold Answer: Khách hàng có thể gửi yêu cầu trả hàng trong vòng 15 ngày kể từ khi đơn hàng được cập nhật là giao thành công; nếu không đồng kiểm tại chỗ, khách hàng cần cung cấp video quay rõ ràng lúc mở gói, không cắt ghép chỉnh sửa, thể hiện tình trạng gói trước và sau khi mở.
+  Top-1: [GOLD] score=0.8732 | doc_id=dmx-marketplace-return-rules     
+          preview: hật là giao thành công. Yêu cầu phải được thực hiện trên Sàn TMĐT Điện Máy Xanh.  Khách hàng được kiểm hàng tại lúc nhận...
+  Top-2: [GOLD] score=0.8215 | doc_id=dmx-marketplace-return-rules     
+          preview: # Quy định đổi trả trên Sàn TMĐT Điện Máy Xanh  Tài liệu này là phần đổi/trả được làm sạch thủ công từ Quy chế hoạt động...
+  Top-3: [GOLD] score=0.8053 | doc_id=dmx-marketplace-return-rules     [CHỨA ĐÁP ÁN]
+          preview: g chủng loại, màu sắc, thông số kỹ thuật hoặc số lượng; hoặc hàng bị móp méo, trầy xước, không còn nguyên đai nguyên kiệ...
+  -> Đánh giá điểm: 2/2 đ (Gold ở Top-1 và Chunk chứa thông tin chính xác)
+  -> Agent trả lời: [1] (Source: dmx-marketplace-return-rules)...
+
+--- Câu hỏi q5 [AVAKids] ---
+Query:       Các sản phẩm đồ chơi bị lỗi kỹ thuật do nhà sản xuất mua tại AVAKids được áp dụng chính sách đổi trả trong bao lâu và có được bảo hành không?
+Gold Doc:    avakids-exchange-policy
+Gold Answer: Được đổi một-một trong 30 ngày kể từ ngày mua nếu có lỗi kỹ thuật từ nhà sản xuất; nhóm đồ chơi chỉ áp dụng đổi trả, không áp dụng bảo hành.
+  Top-1: [GOLD] score=0.8166 | doc_id=avakids-exchange-policy          
+          preview: # Chính sách đổi sản phẩm theo nhóm hàng tại AVAKids  Tài liệu này được làm sạch thủ công từ trang chính sách chính thức...
+  Top-2: [GOLD] score=0.8151 | doc_id=avakids-exchange-policy          
+          preview: trầy xước, cấn hoặc móp, đồng thời đủ linh kiện và vỏ hộp. Nếu sản phẩm lỗi không còn hộp hoặc phụ kiện đi kèm, AVAKids ...
+  Top-3: [GOLD] score=0.7773 | doc_id=avakids-exchange-policy          
+          preview: sản phẩm. E-voucher không quy đổi thành tiền mặt, có giá trị trong 1 tháng và dùng để mua hàng tại AVAKids. Đây là phươn...
+  -> Đánh giá điểm: 1/2 đ (Top-3 trúng file nhưng chunk chưa chứa trực tiếp chuỗi đáp án)
+  -> Agent trả lời: [1] (Source: avakids-exchange-policy)...
+
+================================================================================
+TỔNG KẾT ĐIỂM CHẤT LƯỢNG TRUY XUẤT: 7 / 10 điểm
+================================================================================

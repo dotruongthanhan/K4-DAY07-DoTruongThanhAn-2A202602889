@@ -1,0 +1,44 @@
+# Bộ 5 câu hỏi benchmark chính thức của nhóm cho Lab 07 (K4-L3B)
+# Đại diện 5 đơn vị TMĐT: Shopee, Lazada, HACOM, Điện Máy Xanh (DMX), AVAKids
+# Gồm câu hỏi kiểm thử khả năng tự hỏi lại (q1) và câu hỏi sâu về metadata_filter (q2).
+queries:
+  - id: q1
+    platform: unspecified
+    query: "Sau khi đơn hàng giao thành công, tôi có bao nhiêu ngày để gửi yêu cầu trả hàng hoặc hoàn tiền?"
+    requires_clarification: true
+    clarification_question: "Bạn đang mua hàng trên nền tảng hoặc cửa hàng nào (Shopee, Điện Máy Xanh, HACOM hay AVAKids)?"
+    gold_answer: "Do người dùng không cung cấp thông tin nền tảng mua hàng trong khi mỗi bên có thời hạn và điều kiện khác nhau (Shopee: 15 ngày; Sàn Điện Máy Xanh: 15 ngày; HACOM: 15 ngày đổi mới; AVAKids: 7-30 ngày), mô hình bắt buộc phải tự hỏi lại xem người dùng đang cần tra cứu trên sàn/đơn vị nào thay vì tự thừa nhận hoặc suy đoán một nền tảng cụ thể."
+    gold_doc_id: shopee-return-refund-policy, dmx-marketplace-return-rules
+    gold_contains: "15 ngày kể từ khi đơn"
+
+  - id: q2
+    platform: Lazada
+    query: "Theo quy định đồng kiểm Lazada dành cho Nhà Bán Hàng (NBH), NBH có phải chịu thêm chi phí nào cho đơn đồng kiểm không và cần liên hệ bộ phận nào nếu kiện hàng hoàn về bị hư hỏng, thiếu hàng?"
+    gold_answer: "NBH không phải chi trả thêm bất kỳ chi phí nào cho các đơn hàng đồng kiểm. Nếu hàng hoàn về có vấn đề (thiếu hàng, hư hỏng, tráo hàng, tem không nguyên vẹn), NBH liên hệ ngay với Bộ Phận Hỗ trợ NBH PSC để được giải quyết."
+    gold_doc_id: lazada-joint-inspection-seller
+    gold_contains: "NBH sẽ không chi trả thêm bất kỳ chi phí nào cho các đơn hàng trong chính sách này"
+    metadata_filter:
+      audience: seller
+      platform: Lazada
+    ab_test: true
+
+  - id: q3
+    platform: HACOM
+    query: "Tại HACOM, chính sách đổi mới 100% sản phẩm lỗi do nhà sản xuất áp dụng trong bao nhiêu ngày đầu và dịch vụ bảo hành tại nơi sử dụng áp dụng cho đối tượng nào?"
+    gold_answer: "Áp dụng đổi mới 100% trong 15 ngày đầu với sản phẩm mới lỗi do nhà sản xuất. Dịch vụ bảo hành tại nơi sử dụng áp dụng cho khách hàng doanh nghiệp có Thẻ bảo hành vàng và địa chỉ cách chi nhánh gần nhất dưới 20 km."
+    gold_doc_id: hacom-warranty-process
+    gold_contains: "lỗi nhà sản xuất trong 15 ngày đầu, chính sách nêu điều kiện đổi mới 100%"
+
+  - id: q4
+    platform: Điện Máy Xanh
+    query: "Khách hàng mua trên Sàn TMĐT Điện Máy Xanh có bao nhiêu ngày để gửi yêu cầu trả hàng sau khi giao thành công, và cần cung cấp bằng chứng gì nếu không trả hàng ngay lúc đồng kiểm?"
+    gold_answer: "Khách hàng có thể gửi yêu cầu trả hàng trong vòng 15 ngày kể từ khi đơn hàng được cập nhật là giao thành công; nếu không đồng kiểm tại chỗ, khách hàng cần cung cấp video quay rõ ràng lúc mở gói, không cắt ghép chỉnh sửa, thể hiện tình trạng gói trước và sau khi mở."
+    gold_doc_id: dmx-marketplace-return-rules
+    gold_contains: "trong vòng 15 ngày kể từ khi đơn hàng được cập nhật là giao thành công"
+
+  - id: q5
+    platform: AVAKids
+    query: "Các sản phẩm đồ chơi bị lỗi kỹ thuật do nhà sản xuất mua tại AVAKids được áp dụng chính sách đổi trả trong bao lâu và có được bảo hành không?"
+    gold_answer: "Được đổi một-một trong 30 ngày kể từ ngày mua nếu có lỗi kỹ thuật từ nhà sản xuất; nhóm đồ chơi chỉ áp dụng đổi trả, không áp dụng bảo hành."
+    gold_doc_id: avakids-exchange-policy
+    gold_contains: "được đổi một-một trong 30 ngày kể từ ngày mua"
